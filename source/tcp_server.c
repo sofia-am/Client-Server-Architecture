@@ -23,8 +23,10 @@ int main(){
     server_address.sin_addr.s_addr = INADDR_ANY;
 
     //bindeamos el socket a nuestro puerto ip especificado
-    bind(server_socket, (struct sockaddr*) &server_address, sizeof(server_address));
-
+    if(bind(server_socket, (struct sockaddr*) &server_address, sizeof(server_address)) == -1){
+        perror("Error al hacer el binding");
+        exit(1);
+    }
 
     listen(server_socket, 5); //5: cuantas conexiones puede esperar por este socket en un momento determinado
 

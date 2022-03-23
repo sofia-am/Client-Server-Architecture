@@ -27,7 +27,8 @@ int main(){
 
    // connect devuelve 0 en éxito, -1 en error
     if(connection_status == -1){
-        printf("Hubo un error al hacer la conexión \n\n");
+        perror("Hubo un error al hacer la conexión \n\n");
+        exit(1);
     }
 
     char server_response[SIZE]; // string donde almacenamos la respuesta
