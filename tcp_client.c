@@ -25,14 +25,17 @@ int main(){
     // connect(socket, estructura con la confuguracion del socket (hay que castearlo), tamaño de la estructura)
     int connection_status = connect(network_socket, (struct sockaddr*)&server_address, sizeof(server_address));
 
-|   // connect devuelve 0 en éxito, -1 en error
+   // connect devuelve 0 en éxito, -1 en error
     if(connection_status == -1){
         printf("Hubo un error al hacer la conexión \n\n");
     }
 
-    char server_response[SIZE];
-    
+    char server_response[SIZE]; // string donde almacenamos la respuesta
 
+    // recibimos datos del servidor y lo almacenamos en el buffer
+    recv(network_socket, &server_response, sizeof(server_response), 0);
 
+    printf("El servidor envió esta informacion: %s\n", server_response);
 
+    return 0;
 }
