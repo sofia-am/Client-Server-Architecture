@@ -1,4 +1,4 @@
-/objects
-/binaries
+/obj
+/bin
 *.o 
 .vscode/
