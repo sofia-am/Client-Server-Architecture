@@ -8,7 +8,7 @@ INC = inc
 DEP = inc/dependencies.h
 WHERE = -Wl,-rpath,.
 
-all: mkdir $(BIN)/ipv4_client $(BIN)/unix_client $(BIN)/ipv4_server $(BIN)/unix_server $(BIN)/ipv6_client
+all: mkdir $(BIN)/ipv4_client $(BIN)/unix_client $(BIN)/ipv4_server $(BIN)/unix_server $(BIN)/ipv6_client $(BIN)/ipv6_server
 
 mkdir:
 	mkdir -p $(SRC) $(INC) $(BIN)
@@ -29,6 +29,8 @@ $(BIN)/unix_server: $(SRC)/dependencies.h $(SRC)/unix_server.c
 $(BIN)/ipv6_client: $(SRC)/dependencies.h $(SRC)/ipv6_client.c
 	$(CC) $(SRC)/ipv6_client.c $(CFLAGS) -o $@ 
 
+$(BIN)/ipv6_server: $(SRC)/dependencies.h $(SRC)/ipv6_server.c
+	$(CC) $(SRC)/ipv6_server.c $(CFLAGS) -o $@ 
 
 clean:
 	rm -rf $(BIN) 
