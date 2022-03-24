@@ -6,7 +6,7 @@ BIN = binaries
 #LIB = libraries
 WHERE = -Wl,-rpath,.
 
-all: mkdir $(BIN)/ipv4_client $(BIN)/unix_client #$(BIN)/ipv4_server $(BIN)/unix_server
+all: mkdir $(BIN)/ipv4_client $(BIN)/unix_client $(BIN)/ipv4_server $(BIN)/unix_server
 
 mkdir:
 	mkdir -p $(OBJS) $(SRC) $(BIN)
@@ -19,8 +19,8 @@ $(BIN)/ipv4_client: $(SRC)/ipv4_client.c
 $(BIN)/ipv4_server: $(SRC)/ipv4_server.c 
 	$(CC) $(SRC)/ipv4_server.c $(CFLAGS) -o $@
 
-#$(BIN)/unix_server: $(SRC)/unix_server.c 
-#	$(CC) $(SRC)/unix_server.c $(CFLAGS) -o $@
+$(BIN)/unix_server: $(SRC)/unix_server.c 
+	$(CC) $(SRC)/unix_server.c $(CFLAGS) -o $@
 
 $(BIN)/unix_client: $(SRC)/unix_client.c 
 	$(CC) $(SRC)/unix_client.c $(CFLAGS) -o $@

@@ -7,7 +7,7 @@
 #define SIZE 80
 
 int main(int argc, char *argv[]){
-    int local_socket, new_local_socket, pid, buf;
+    int local_socket, new_local_socket, pid;
     socklen_t server_length, client_length;
     ssize_t char_count, b_flag;
     struct sockaddr_un server_address, client_address;
@@ -39,4 +39,42 @@ int main(int argc, char *argv[]){
         exit(1);
     }
 
+    printf("Proceso: %d - socket disponible %s\n", getpid(), server_address.sun_path);
+    listen(local_socket, 5);
+    client_length = sizeof(client_address);
+
+    while(1){
+        new_local_socket = accept(local_socket, (struct sockaddr*)&client_address, &client_length);
+
+        pid = fork();
+
+        if(pid == 0){
+            close(local_socket);
+
+            while(1){
+                memset(message, '0', SIZE);
+
+                char_count = read(new_local_socket, message, SIZE-1);
+
+                if(char_count < 0){
+                    perror("Error en la lectura del socket");
+                    exit(1);
+                }
+
+                printf("PROCESO %d ", getpid());
+                printf("Recibí: %s", message);
+
+                char_count = write(new_local_socket, "Obtuve su mensaje ", 18);
+                
+                if(char_count < 0){
+                    perror("Error en la escritura del socket");
+                    exit(1);
+                }
+            }
+        }else{
+            printf("SERVIDOR: Nuevo cliente, que atiende el proceso hijo %d\n", pid);
+            close(new_local_socket);
+        }
+    }
+    return 0;
 }   

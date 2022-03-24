@@ -53,6 +53,12 @@ int main(int argc, char*argv[]){
 
         memset(message, '\0', SIZE);
         char_count = read(local_socket, message, SIZE);
+
+        if(char_count < 0){
+            perror("Error en la lectura del socket");
+            exit(1);
+        }
+
         printf("Respuesta %s\n", message);
     }
     return 0;
