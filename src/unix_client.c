@@ -41,25 +41,13 @@ int main(int argc, char*argv[]){
 
     while(1){
         memset(message, 'a', (size_t)SIZE);
-        //printf("Ingrese el mensaje a enviar: ");
-        //fgets(message, SIZE-1, stdin);
-
+        
         char_count = write(local_socket, message, strlen(message));
 
         if(char_count < 0){
             perror("Error en la escritura del socket");
             exit(1);
         }
-
-        memset(message, '\0', (size_t)SIZE);
-        char_count = read(local_socket, message, (size_t)SIZE);
-
-        if(char_count < 0){
-            perror("Error en la lectura del socket");
-            exit(1);
-        }
-
-        //printf("Respuesta %s\n", message);
     }
     return 0;
 }

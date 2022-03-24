@@ -48,9 +48,6 @@ int main(int argc, char* argv[]){
     }
     memset(message, 'a', (size_t)SIZE);
     while(1){
-        //printf("Ingrese el mensaje a transmitir: ");
-        //memset(message, '\0', SIZE); //limpio el buffer
-        //fgets(message, SIZE-1, stdin);
 
         char_count = write(network_socket, message, strlen(message));
 
@@ -58,17 +55,6 @@ int main(int argc, char* argv[]){
             perror("Hubo un error al enviar el mensaje");
             exit(1);
         }
-
-        memset(message, '\0', (size_t)SIZE);
-
-        // recibimos datos del servidor y lo almacenamos en el buffer
-        char_count = read(network_socket, message, (size_t)SIZE);
-
-        if(char_count == -1){
-            perror("Hubo un error al recibir el mensaje");
-            exit(1);
-        }
-        //printf("Respuesta %s\n", message);
     }
     return 0;
 

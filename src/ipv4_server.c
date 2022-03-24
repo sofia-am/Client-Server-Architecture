@@ -8,7 +8,6 @@
 int main(int argc, char* argv[]){
     int pid1, new_server_socket, server_socket;
     ssize_t char_count = 0;
-    ssize_t char_written;
     struct sockaddr_in server_address, client_address;
 
     if(argc<2){
@@ -43,10 +42,7 @@ int main(int argc, char* argv[]){
     listen(server_socket, 5); //5: cuantas conexiones puede esperar por este socket en un momento determinado
 
     socklen_t cl_addr_length = sizeof(client_address);
-   
-    char* respuesta = "Obtuve su mensaje";
-    //int aux = 0;
-    //int bandwidth = 0;
+
     signal(SIGCHLD, SIG_IGN);
 
     while(1){
@@ -63,7 +59,7 @@ int main(int argc, char* argv[]){
             close(server_socket);
             //fprintf(stdout, "[PID %d] Atendiendo nuevo cliente", getpid());
             while(1){
-                char message[MAX_SIZE]; //= "Te comunicaste con el servidor!";
+                char message[MAX_SIZE]; 
                 memset(message, 0, (size_t)MAX_SIZE);
 
                 char_count = read(new_server_socket, message, (size_t)MAX_SIZE-1);
@@ -72,26 +68,8 @@ int main(int argc, char* argv[]){
                     perror("Error en la lectura del socket");
                     exit(1);
                 }
-                int pid2 = fork();
-
-
-                if(pid2 == 0){
-                    while(1){
-                        //aux = (int)char_count;
-                        sleep(10);
-                        //bandwidth = ((int)char_count - aux)*((int)sizeof(char));
-                    }
-                }
-                
-                char_written = write(new_server_socket, respuesta, 18);
-
-                if(char_written == -1){
-                    perror("Error al escribir en el socket");
-                    exit(1);
-                }
             }
         }else{
-            printf("Bandwidth: %ld", char_count);
             printf("[IPV4] PID %d - Atendiendo un nuevo cliente\n", pid1);
 
             close(new_server_socket);

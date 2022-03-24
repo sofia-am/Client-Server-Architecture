@@ -4,7 +4,7 @@
 int main(int argc, char *argv[]){
     int local_socket, new_local_socket, pid;
     socklen_t server_length, client_length;
-    ssize_t char_count, bind_status;
+    ssize_t char_read, bind_status;
     struct sockaddr_un server_address, client_address;
 
     char message[MAX_SIZE];
@@ -51,20 +51,10 @@ int main(int argc, char *argv[]){
             while(1){
                 memset(message, 0, (size_t)MAX_SIZE);
 
-                char_count = read(new_local_socket, message, SIZE-1);
+                char_read = read(new_local_socket, message, SIZE-1);
 
-                if(char_count < 0){
+                if(char_read < 0){
                     perror("Error en la lectura del socket");
-                    exit(1);
-                }
-
-                //printf("PROCESO %d ", getpid());
-                //printf("Recibí: %s", message);
-
-                char_count = write(new_local_socket, "Obtuve su mensaje ", 18);
-                
-                if(char_count < 0){
-                    perror("Error en la escritura del socket");
                     exit(1);
                 }
             }

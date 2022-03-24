@@ -74,15 +74,6 @@ int main(int argc, char* argv[]){
                     perror("Error en la lectura del socket");
                     exit(1);
                 }
-
-                //printf("\n[PID %d]\t", getpid());
-                //printf("Recibí %s", message);
-
-                char_count = write(new_socket, "Recibí el mensaje", 18);
-                if(char_count == -1){
-                    perror("Error en la escritura del socket");
-                    exit(1);
-                }
             }
         }else{
                 printf("[IPV6] PID %d - Atendiendo un nuevo cliente\n", pid);
