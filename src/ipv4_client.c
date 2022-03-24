@@ -8,6 +8,12 @@
 
 int main(int argc, char *argv[]){
     int SIZE = atoi(argv[3]);
+
+    if(SIZE>MAX_SIZE){
+        printf("Ingrese un tamaño menor a 1024");
+        exit(1);
+    }
+
     char message[SIZE]; // string donde almacenamos la respuesta
     socket_data.ipv4_size = SIZE; //seteo en la estructura compartida entre el cliente y el servidor el tamaño de buffer a utilizar
 
@@ -42,10 +48,12 @@ int main(int argc, char *argv[]){
         exit(1);
     }  
 
+        //printf("Ingrese el mensaje a transmitir: ");
+    memset(message, '\0', (size_t)SIZE); //limpio el buffer
+    //fgets(message, SIZE-1, stdin);
+    memset(message, 'a', (size_t)SIZE);
+
     while(1){
-        printf("Ingrese el mensaje a transmitir: ");
-        memset(message, '\0', (size_t)SIZE); //limpio el buffer
-        fgets(message, SIZE-1, stdin);
 
         char_count = write(network_socket, message, strlen(message));
 
@@ -63,7 +71,6 @@ int main(int argc, char *argv[]){
             perror("Hubo un error al recibir el mensaje");
             exit(1);
         }
-        printf("Respuesta %s\n", message);
     }
     return 0;
 }

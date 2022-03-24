@@ -13,6 +13,8 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 
+#define MAX_SIZE 1024
+
 typedef struct Data
 {
     int ipv4_size;

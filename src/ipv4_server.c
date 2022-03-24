@@ -1,5 +1,5 @@
 #include "dependencies.h"
-//#define SIZE 256
+#define SIZE 256
 /*
     argv[0]->nombre del programa
     argv[1]->host
@@ -58,22 +58,19 @@ int main(int argc, char* argv[]){
 
         if(pid == 0){
             close(server_socket);
-
+            printf("\n[PID %d]\t", getpid());
             while(1){
-                int SIZE = socket_data.ipv4_size;
-                char message[SIZE]; //= "Te comunicaste con el servidor!";
-                memset(message, 0, (size_t)SIZE);
+                char message[MAX_SIZE]; //= "Te comunicaste con el servidor!";
+                memset(message, 0, (size_t)MAX_SIZE);
 
-                char_count = read(new_server_socket, message, (size_t)SIZE-1);
+                char_count = read(new_server_socket, message, (size_t)MAX_SIZE-1);
 
                 if(char_count == -1){
                     perror("Error en la lectura del socket");
                     exit(1);
                 }
 
-                printf("\n[PID %d]\t", getpid());
-                printf("Recibí: %s", message);
-
+                
                 char_count = write(new_server_socket, respuesta, 18);
 
                 if(char_count == -1){
