@@ -9,7 +9,7 @@
 int main(int argc, char *argv[]){
     int local_socket, new_local_socket, pid, buf;
     socklen_t server_length, client_length;
-    ssize_t char_count;
+    ssize_t char_count, b_flag;
     struct sockaddr_un server_address, client_address;
     char message[SIZE];
 
@@ -27,6 +27,16 @@ int main(int argc, char *argv[]){
 
     unlink(argv[1]);
 
-    memset(&)
+    memset((void*)&server_address, 0, sizeof(server_address));
+    server_address.sun_family = AF_UNIX;
+    strcpy(server_address.sun_path, argv[1]); //almaceno el nombre del socket que pasé como parametro
+    server_length = (socklen_t)(strlen(server_address.sun_path)+sizeof(server_address.sun_family));
+
+    b_flag = bind(local_socket, (struct sockaddr*)&server_address, server_length);
+
+    if(b_flag == -1){
+        perror("Error al hacer el bind");
+        exit(1);
+    }
 
 }   
