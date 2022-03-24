@@ -15,7 +15,7 @@ int main(int argc, char *argv[]){
     }
 
     char message[SIZE]; // string donde almacenamos la respuesta
-    socket_data.ipv4_size = SIZE; //seteo en la estructura compartida entre el cliente y el servidor el tamaño de buffer a utilizar
+    //socket_data.ipv4_size = SIZE; //seteo en la estructura compartida entre el cliente y el servidor el tamaño de buffer a utilizar
 
     ssize_t char_count; //nos dice cuantos caracteres fueron escritos/leídos con éxito
     int network_socket;

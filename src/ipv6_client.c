@@ -1,9 +1,8 @@
 #include "dependencies.h"
-#define SIZE 256
 /*
     argv[0]->nombre del programa
-    argv[1]->host
-    argv[2]->puerto
+    argv[1]->puerto
+    argv[2]->host
     argv[3]->tamaño del buffer
 */
 int main(int argc, char* argv[]){
@@ -11,7 +10,13 @@ int main(int argc, char* argv[]){
     struct sockaddr_in6 server_address;
     int connection_status;
     ssize_t char_count;
-    //int SIZE = atoi(argv[3]);
+    
+    int SIZE = atoi(argv[3]);
+
+    if(SIZE>MAX_SIZE){
+        printf("Ingrese un tamaño menor a 1024\n");
+        exit(1); 
+    }
     char message[SIZE];
 
 
@@ -41,11 +46,11 @@ int main(int argc, char* argv[]){
         perror("Error al hacer la conexion");
         exit(1);
     }
-
+    memset(message, 'a', (size_t)SIZE);
     while(1){
-        printf("Ingrese el mensaje a transmitir: ");
-        memset(message, '\0', SIZE); //limpio el buffer
-        fgets(message, SIZE-1, stdin);
+        //printf("Ingrese el mensaje a transmitir: ");
+        //memset(message, '\0', SIZE); //limpio el buffer
+        //fgets(message, SIZE-1, stdin);
 
         char_count = write(network_socket, message, strlen(message));
 
@@ -54,16 +59,16 @@ int main(int argc, char* argv[]){
             exit(1);
         }
 
-        memset(message, '\0', SIZE);
+        memset(message, '\0', (size_t)SIZE);
 
         // recibimos datos del servidor y lo almacenamos en el buffer
-        char_count = read(network_socket, message, SIZE);
+        char_count = read(network_socket, message, (size_t)SIZE);
 
         if(char_count == -1){
             perror("Hubo un error al recibir el mensaje");
             exit(1);
         }
-        printf("Respuesta %s\n", message);
+        //printf("Respuesta %s\n", message);
     }
     return 0;
 

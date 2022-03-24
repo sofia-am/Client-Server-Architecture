@@ -38,8 +38,9 @@ int main(int argc, char* argv[]){
         perror("Error al hacer el binding");
         exit(1);
     }
+    signal(SIGCHLD, SIG_IGN);
 
-    printf("ᴍᴏꜱʜɪ ᴍᴏꜱʜɪ!\nProceso %d - Socket disponible %d\n", getpid(), ntohs(server_address.sin6_port));
+    printf("ᴍᴏꜱʜɪ ᴍᴏꜱʜɪ!\n[IPV6] Servidor: PID %d - Socket disponible en puerto %d\n", getpid(), ntohs(server_address.sin6_port));
 
     listen(listen_socket, 5);
 
@@ -63,19 +64,19 @@ int main(int argc, char* argv[]){
             close(listen_socket);
 
             while(1){
-                int SIZE = 256;
-                char message[SIZE];
-                memset(message, 0, (size_t)SIZE);
                 
-                char_count = read(new_socket, message, (size_t)SIZE-1);
+                char message[MAX_SIZE];
+                memset(message, 0, (size_t)MAX_SIZE);
+                
+                char_count = read(new_socket, message, (size_t)MAX_SIZE-1);
 
                 if(char_count == -1){
                     perror("Error en la lectura del socket");
                     exit(1);
                 }
 
-                printf("\n[PID %d]\t", getpid());
-                printf("Recibí %s", message);
+                //printf("\n[PID %d]\t", getpid());
+                //printf("Recibí %s", message);
 
                 char_count = write(new_socket, "Recibí el mensaje", 18);
                 if(char_count == -1){
@@ -84,7 +85,7 @@ int main(int argc, char* argv[]){
                 }
             }
         }else{
-                printf("Servidor: Nuevo cliente, atendido por el proceso %d\n", pid);
+                printf("[IPV6] PID %d - Atendiendo un nuevo cliente\n", pid);
                 close(new_socket);
         }
     }

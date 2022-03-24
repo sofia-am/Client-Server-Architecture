@@ -39,7 +39,7 @@ int main(int argc, char* argv[]){
         exit(1);
     }
 
-    printf("ᴍᴏꜱʜɪ ᴍᴏꜱʜɪ!\n<Servidor> [PID %d] - Socket disponible en puerto %d\n", getpid(), ntohs(server_address.sin_port));
+    printf("ᴍᴏꜱʜɪ ᴍᴏꜱʜɪ!\n[IPV4] Servidor: PID %d - Socket disponible en puerto %d\n", getpid(), ntohs(server_address.sin_port));
     listen(server_socket, 5); //5: cuantas conexiones puede esperar por este socket en un momento determinado
 
     socklen_t cl_addr_length = sizeof(client_address);
@@ -79,7 +79,7 @@ int main(int argc, char* argv[]){
                 }
             }
         }else{
-            printf("[PID %d] Atendiendo un nuevo cliente\n", pid);
+            printf("[IPV4] PID %d - Atendiendo un nuevo cliente\n", pid);
             close(new_server_socket);
         }
     }
