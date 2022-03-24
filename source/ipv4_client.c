@@ -65,7 +65,6 @@ int main(int argc, char *argv[]){
             perror("Hubo un error al recibir el mensaje");
             exit(1);
         }
-
         printf("Respuesta %s\n", message);
     }
     return 0;
