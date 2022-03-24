@@ -9,7 +9,7 @@
 int main(int argc, char*argv[]){
 
     int local_socket;
-    ssize_t char_count,c_flag;
+    ssize_t char_count, connection_status;
     socklen_t server_length;
     struct sockaddr_un server_address;
     char message[SIZE];
@@ -32,9 +32,9 @@ int main(int argc, char*argv[]){
         exit(1);
     }
 
-    c_flag = connect(local_socket, (struct sockaddr*)&server_address, server_length);
+    connection_status = connect(local_socket, (struct sockaddr*)&server_address, server_length);
     
-    if(c_flag == -1){
+    if(connection_status == -1){
         perror("Error en la conexión");
         exit(1);
     }
