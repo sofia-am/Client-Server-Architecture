@@ -36,7 +36,7 @@ int main(int argc, char* argv[]){
 
     int puerto = atoi(argv[1]); //el nro de puerto es pasado como argumento
     server_address.sin_family = AF_INET;
-    server_address.sin_port = htons(puerto);
+    server_address.sin_port = htons((uint16_t)puerto);
     server_address.sin_addr.s_addr = INADDR_ANY;
     memset(&(server_address.sin_zero), '\0', 8);
 

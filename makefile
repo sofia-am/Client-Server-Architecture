@@ -20,7 +20,7 @@ $(BIN)/tcp_server: $(SRC)/tcp_server.c
 	$(CC) $(SRC)/tcp_server.c $(CFLAGS) -o $@
 
 clean:
-	rm -rf $(OBJS)
+	rm -rf $(BIN)
 
 git: 
 	git add $(SRC)/tcp_client.c $(SRC)/tcp_server.c
