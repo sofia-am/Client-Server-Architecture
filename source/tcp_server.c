@@ -15,7 +15,7 @@ int main(int argc, char* argv[]){
     int pid;
   
     if(argc<2){
-        fprintf(stderr, "Ingrese un valor de puerto");
+        fprintf(stderr, "Ingrese un valor de puerto\n");
         exit(1);
     }
 
@@ -46,7 +46,7 @@ int main(int argc, char* argv[]){
         exit(1);
     }
 
-    printf("ᴍᴏꜱʜɪ ᴍᴏꜱʜɪ\n Proceso %d - Socket disponible %d\n", getpid(), 9002);
+    printf("ᴍᴏꜱʜɪ ᴍᴏꜱʜɪ!\nProceso %d - Socket disponible %d\n", getpid(), 9002);
     listen(server_socket, 5); //5: cuantas conexiones puede esperar por este socket en un momento determinado
 
     //socklen_t sv_addr_length = sizeof(server_address);
@@ -78,7 +78,7 @@ int main(int argc, char* argv[]){
                     exit(1);
                 }
 
-                printf("[PID %d]\t", getpid());
+                printf("\n[PID %d]\t", getpid());
                 printf("Recibí: %s", message);
 
                 char* respuesta = "Obtuve su mensaje";

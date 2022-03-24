@@ -11,17 +11,26 @@
 
 #define SIZE 256 //tamaño del buffer
 
-int main(){
+int main(int argc, char *argv[]){
+
+    if(argc<3){
+        fprintf(stderr, "Ingrese un host y un puerto\n");
+        exit(0);
+    }
 
     //creo un socket
     int network_socket;
     network_socket = socket(AF_INET, SOCK_STREAM, 0);
 
+    int puerto = atoi(argv[2]);
+    struct hostent *server = gethostbyname(argv[1]); //me pasan como parámetro el servidor
+
     // especifico la dirección del socket
     struct sockaddr_in server_address;
     server_address.sin_family = AF_INET;
-    server_address.sin_port = htons(9002); //puerto probablemente libre
-    server_address.sin_addr.s_addr = INADDR_ANY; 
+    server_address.sin_port = htons((uint16_t)puerto); //puerto probablemente libre
+    //server_address.sin_addr.s_addr = server->h_addr; 
+    bcopy((char*)server->h_addr, (char*)&server_address.sin_addr.s_addr, (size_t)server->h_length); //copia n bits de source a destino (src, dest, n)
 
     // connect(socket, estructura con la confuguracion del socket (hay que castearlo), tamaño de la estructura)
     int connection_status = connect(network_socket, (struct sockaddr*)&server_address, sizeof(server_address));
@@ -39,7 +48,7 @@ int main(){
         memset(message, '\0', SIZE); //limpio el buffer
         fgets(message, SIZE-1, stdin);
 
-        ssize_t char_count;
+        ssize_t char_count; //nos dice cuantos caracteres fueron escritos/leídos con éxito
 
         char_count = write(network_socket, message, strlen(message));
 
