@@ -7,7 +7,7 @@ int main(int argc, char *argv[]){
     ssize_t char_count, bind_status;
     struct sockaddr_un server_address, client_address;
 
-    char message[SIZE];
+    char message[MAX_SIZE];
 
     if(argc<2){
         printf("Debe asignarle un nombre al socket como parámetro");
@@ -35,9 +35,10 @@ int main(int argc, char *argv[]){
         exit(1);
     }
 
-    printf("Proceso: %d - socket disponible %s\n", getpid(), server_address.sun_path);
+    printf("ᴍᴏꜱʜɪ ᴍᴏꜱʜɪ!\n[UNIX] Servidor: PID %d - Socket disponible en socket %s\n", getpid(), server_address.sun_path);
     listen(local_socket, 5);
     client_length = sizeof(client_address);
+    signal(SIGCHLD, SIG_IGN);
 
     while(1){
         new_local_socket = accept(local_socket, (struct sockaddr*)&client_address, &client_length);
@@ -48,7 +49,7 @@ int main(int argc, char *argv[]){
             close(local_socket);
 
             while(1){
-                memset(message, '0', SIZE);
+                memset(message, 0, (size_t)MAX_SIZE);
 
                 char_count = read(new_local_socket, message, SIZE-1);
 
@@ -57,8 +58,8 @@ int main(int argc, char *argv[]){
                     exit(1);
                 }
 
-                printf("PROCESO %d ", getpid());
-                printf("Recibí: %s", message);
+                //printf("PROCESO %d ", getpid());
+                //printf("Recibí: %s", message);
 
                 char_count = write(new_local_socket, "Obtuve su mensaje ", 18);
                 
@@ -68,7 +69,7 @@ int main(int argc, char *argv[]){
                 }
             }
         }else{
-            printf("SERVIDOR: Nuevo cliente, que atiende el proceso hijo %d\n", pid);
+            printf("[UNIX] PID %d - Atendiendo un nuevo cliente\n", pid);
             close(new_local_socket);
         }
     }

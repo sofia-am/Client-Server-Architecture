@@ -1,5 +1,4 @@
 #include "dependencies.h"
-#define SIZE 256
 /*
     argv[0]->nombre del programa
     argv[1]->host

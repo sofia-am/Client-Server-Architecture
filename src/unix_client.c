@@ -1,12 +1,17 @@
 #include "dependencies.h"
-#define SIZE 80
+
 
 int main(int argc, char*argv[]){
-
+    int SIZE = atoi(argv[2]);
     int local_socket;
     ssize_t char_count, connection_status;
     socklen_t server_length;
     struct sockaddr_un server_address;
+
+    if(SIZE>MAX_SIZE){
+        printf("Ingrese un tamaño menor a 1024");
+        exit(1);
+    }
     char message[SIZE];
     //int terminar = 0;
 
@@ -35,9 +40,9 @@ int main(int argc, char*argv[]){
     }
 
     while(1){
-        memset(message, '\0', SIZE);
-        printf("Ingrese el mensaje a enviar: ");
-        fgets(message, SIZE-1, stdin);
+        memset(message, 'a', (size_t)SIZE);
+        //printf("Ingrese el mensaje a enviar: ");
+        //fgets(message, SIZE-1, stdin);
 
         char_count = write(local_socket, message, strlen(message));
 
@@ -46,15 +51,15 @@ int main(int argc, char*argv[]){
             exit(1);
         }
 
-        memset(message, '\0', SIZE);
-        char_count = read(local_socket, message, SIZE);
+        memset(message, '\0', (size_t)SIZE);
+        char_count = read(local_socket, message, (size_t)SIZE);
 
         if(char_count < 0){
             perror("Error en la lectura del socket");
             exit(1);
         }
 
-        printf("Respuesta %s\n", message);
+        //printf("Respuesta %s\n", message);
     }
     return 0;
 }

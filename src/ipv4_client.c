@@ -51,10 +51,11 @@ int main(int argc, char *argv[]){
     //printf("Ingrese el mensaje a transmitir: ");
    // memset(message, '\0', (size_t)SIZE); //limpio el buffer
     //fgets(message, SIZE-1, stdin);
-    memset(message, 'a', (size_t)SIZE);
+
 
     while(1){
-
+        memset(message, 'a', (size_t)SIZE);
+        
         char_count = write(network_socket, message, strlen(message));
 
         if(char_count == -1){
