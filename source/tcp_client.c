@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -31,12 +32,33 @@ int main(){
         exit(1);
     }
 
-    char server_response[SIZE]; // string donde almacenamos la respuesta
+    while(1){
+        printf("Ingrese el mensaje a transmitir: ");
+        
+        char message[SIZE]; // string donde almacenamos la respuesta
+        memset(message, '\0', SIZE); //limpio el buffer
+        fgets(message, SIZE-1, stdin);
 
-    // recibimos datos del servidor y lo almacenamos en el buffer
-    recv(network_socket, &server_response, sizeof(server_response), 0);
+        ssize_t char_count;
 
-    printf("El servidor envió esta informacion: %s\n", server_response);
+        char_count = write(network_socket, message, strlen(message));
 
+        if(char_count == -1){
+            perror("Hubo un error al enviar el mensaje");
+            exit(1);
+        }
+
+        memset(message, '\0', SIZE);
+
+        // recibimos datos del servidor y lo almacenamos en el buffer
+        char_count = read(network_socket, message, SIZE);
+
+        if(char_count == -1){
+            perror("Hubo un error al recibir el mensaje");
+            exit(1);
+        }
+
+        printf("Respuesta %s\n", message);
+    }
     return 0;
 }
