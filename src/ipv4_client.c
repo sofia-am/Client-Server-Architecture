@@ -48,8 +48,8 @@ int main(int argc, char *argv[]){
         exit(1);
     }  
 
-        //printf("Ingrese el mensaje a transmitir: ");
-    memset(message, '\0', (size_t)SIZE); //limpio el buffer
+    //printf("Ingrese el mensaje a transmitir: ");
+   // memset(message, '\0', (size_t)SIZE); //limpio el buffer
     //fgets(message, SIZE-1, stdin);
     memset(message, 'a', (size_t)SIZE);
 

@@ -39,12 +39,13 @@ int main(int argc, char* argv[]){
         exit(1);
     }
 
-    printf("ᴍᴏꜱʜɪ ᴍᴏꜱʜɪ!\nProceso %d - Socket disponible %d\n", getpid(), ntohs(server_address.sin_port));
+    printf("ᴍᴏꜱʜɪ ᴍᴏꜱʜɪ!\n<Servidor> [PID %d] - Socket disponible en puerto %d\n", getpid(), ntohs(server_address.sin_port));
     listen(server_socket, 5); //5: cuantas conexiones puede esperar por este socket en un momento determinado
 
     socklen_t cl_addr_length = sizeof(client_address);
    
     char* respuesta = "Obtuve su mensaje";
+    signal(SIGCHLD, SIG_IGN);
 
     while(1){
         
@@ -58,7 +59,7 @@ int main(int argc, char* argv[]){
 
         if(pid == 0){
             close(server_socket);
-            printf("\n[PID %d]\t", getpid());
+            //fprintf(stdout, "[PID %d] Atendiendo nuevo cliente", getpid());
             while(1){
                 char message[MAX_SIZE]; //= "Te comunicaste con el servidor!";
                 memset(message, 0, (size_t)MAX_SIZE);
@@ -70,7 +71,6 @@ int main(int argc, char* argv[]){
                     exit(1);
                 }
 
-                
                 char_count = write(new_server_socket, respuesta, 18);
 
                 if(char_count == -1){
@@ -79,7 +79,7 @@ int main(int argc, char* argv[]){
                 }
             }
         }else{
-            printf("Servidor: Nuevo cliente, que atiende el proceso hijo %d\n", pid);
+            printf("[PID %d] Atendiendo un nuevo cliente\n", pid);
             close(new_server_socket);
         }
     }
