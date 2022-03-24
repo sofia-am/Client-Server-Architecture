@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <sys/un.h>
-#include <errno.h>
+#include "dependencies.h"
 #define SIZE 80
 
 int main(int argc, char*argv[]){

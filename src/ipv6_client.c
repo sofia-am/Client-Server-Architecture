@@ -1,23 +1,19 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-
-#include <sys/types.h>
-#include <sys/socket.h>
-
-#include <netinet/in.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-
+#include "dependencies.h"
 #define SIZE 256
-
+/*
+    argv[0]->nombre del programa
+    argv[1]->host
+    argv[2]->puerto
+    argv[3]->tamaño del buffer
+*/
 int main(int argc, char* argv[]){
     int network_socket;
     struct sockaddr_in6 server_address;
     int connection_status;
     ssize_t char_count;
+    //int SIZE = atoi(argv[3]);
     char message[SIZE];
+
 
     if(argc<3){
         printf("Por favor, ingrese puerto y host");

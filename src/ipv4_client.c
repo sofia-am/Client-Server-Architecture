@@ -1,18 +1,16 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-
-#include <sys/types.h>
-#include <sys/socket.h>
-
-#include <netinet/in.h>
-#include <netdb.h>
-
-#define SIZE 256 //tamaño del buffer
+#include "dependencies.h"
+/*
+    argv[0]->nombre del programa
+    argv[1]->host
+    argv[2]->puerto
+    argv[3]->tamaño del buffer
+*/
 
 int main(int argc, char *argv[]){
+    int SIZE = atoi(argv[3]);
     char message[SIZE]; // string donde almacenamos la respuesta
+    socket_data.ipv4_size = SIZE; //seteo en la estructura compartida entre el cliente y el servidor el tamaño de buffer a utilizar
+
     ssize_t char_count; //nos dice cuantos caracteres fueron escritos/leídos con éxito
     int network_socket;
 
@@ -46,7 +44,7 @@ int main(int argc, char *argv[]){
 
     while(1){
         printf("Ingrese el mensaje a transmitir: ");
-        memset(message, '\0', SIZE); //limpio el buffer
+        memset(message, '\0', (size_t)SIZE); //limpio el buffer
         fgets(message, SIZE-1, stdin);
 
         char_count = write(network_socket, message, strlen(message));
@@ -56,10 +54,10 @@ int main(int argc, char *argv[]){
             exit(1);
         }
 
-        memset(message, '\0', SIZE);
+        memset(message, '\0', (size_t)SIZE);
 
         // recibimos datos del servidor y lo almacenamos en el buffer
-        char_count = read(network_socket, message, SIZE);
+        char_count = read(network_socket, message, (size_t)SIZE);
 
         if(char_count == -1){
             perror("Hubo un error al recibir el mensaje");

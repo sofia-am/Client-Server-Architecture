@@ -1,17 +1,12 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include <sys/socket.h>
-#include <sys/types.h>
-
-#include <netinet/in.h>
-#include <unistd.h>
-
-#define SIZE 256
-
+#include "dependencies.h"
+//#define SIZE 256
+/*
+    argv[0]->nombre del programa
+    argv[1]->host
+    argv[2]->puerto
+    argv[3]->tamaño del buffer
+*/
 int main(int argc, char* argv[]){
-    char message[SIZE]; //= "Te comunicaste con el servidor!";
     int pid, new_server_socket, server_socket;
     ssize_t char_count;
     struct sockaddr_in server_address, client_address;
@@ -65,9 +60,11 @@ int main(int argc, char* argv[]){
             close(server_socket);
 
             while(1){
-                memset(message, 0, SIZE);
+                int SIZE = socket_data.ipv4_size;
+                char message[SIZE]; //= "Te comunicaste con el servidor!";
+                memset(message, 0, (size_t)SIZE);
 
-                char_count = read(new_server_socket, message, SIZE-1);
+                char_count = read(new_server_socket, message, (size_t)SIZE-1);
 
                 if(char_count == -1){
                     perror("Error en la lectura del socket");
