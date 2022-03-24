@@ -12,14 +12,15 @@
 #define SIZE 256 //tamaño del buffer
 
 int main(int argc, char *argv[]){
+    char message[SIZE]; // string donde almacenamos la respuesta
+    ssize_t char_count; //nos dice cuantos caracteres fueron escritos/leídos con éxito
+    int network_socket;
 
     if(argc<3){
         fprintf(stderr, "Ingrese un host y un puerto\n");
         exit(0);
     }
-
     //creo un socket
-    int network_socket;
     network_socket = socket(AF_INET, SOCK_STREAM, 0);
 
     int puerto = atoi(argv[2]);
@@ -27,6 +28,8 @@ int main(int argc, char *argv[]){
 
     // especifico la dirección del socket
     struct sockaddr_in server_address;
+    memset((char*)&server_address, '0', sizeof(server_address));
+
     server_address.sin_family = AF_INET;
     server_address.sin_port = htons((uint16_t)puerto); //puerto probablemente libre
     //server_address.sin_addr.s_addr = server->h_addr; 
@@ -37,18 +40,14 @@ int main(int argc, char *argv[]){
 
    // connect devuelve 0 en éxito, -1 en error
     if(connection_status == -1){
-        perror("Hubo un error al hacer la conexión \n\n");
+        perror("Hubo un error al hacer la conexión");
         exit(1);
-    }
+    }  
 
     while(1){
         printf("Ingrese el mensaje a transmitir: ");
-        
-        char message[SIZE]; // string donde almacenamos la respuesta
         memset(message, '\0', SIZE); //limpio el buffer
         fgets(message, SIZE-1, stdin);
-
-        ssize_t char_count; //nos dice cuantos caracteres fueron escritos/leídos con éxito
 
         char_count = write(network_socket, message, strlen(message));
 
