@@ -19,9 +19,27 @@ int main(int argc, char* argv[]){
         exit(1);
     }
 
+    /* set socket to reuse address*/
+    int flag = 1;
+	int ret = setsockopt(listen_socket, SOL_SOCKET, SO_REUSEADDR, &flag, sizeof(flag));
+	if(ret == -1) {
+		perror("setsockopt()");
+		return EXIT_FAILURE;
+	}
+
+    memset((char*)&server_address, '0', sizeof(server_address));
+
+    int puerto = atoi(argv[1]);
     server_address.sin6_family = AF_INET6;
-    inet_pton(AF_INET6, argv[1], &server_address.sin6_addr);
-    server_address.sin6_port = htons(7002);
+    server_address.sin6_addr = in6addr_loopback;
+    server_address.sin6_port = htons((uint16_t)puerto);
+
+    if(bind(listen_socket, (struct sockaddr*) &server_address, sizeof(server_address)) == -1){
+        perror("Error al hacer el binding");
+        exit(1);
+    }
+
+    printf("ᴍᴏꜱʜɪ ᴍᴏꜱʜɪ!\nProceso %d - Socket disponible %d\n", getpid(), ntohs(server_address.sin6_port));
 
     listen(listen_socket, 5);
 
@@ -45,10 +63,10 @@ int main(int argc, char* argv[]){
             close(listen_socket);
 
             while(1){
-                int SIZE = socket_data.ipv6_size;
+                int SIZE = 256;
                 char message[SIZE];
                 memset(message, 0, (size_t)SIZE);
-
+                
                 char_count = read(new_socket, message, (size_t)SIZE-1);
 
                 if(char_count == -1){

@@ -15,7 +15,7 @@ int main(int argc, char* argv[]){
     char message[SIZE];
 
 
-    if(argc<3){
+    if(argc<2){
         printf("Por favor, ingrese puerto y host");
         exit(0);
     }
@@ -27,11 +27,13 @@ int main(int argc, char* argv[]){
         exit(1);
     }
 
-    //struct hostent *server = gethostbyname(argv[1]);
+    int puerto = atoi(argv[1]);
+    char *address = argv[2];
 
     server_address.sin6_family = AF_INET6;
-    server_address.sin6_port = htons(7002);
-    inet_pton(AF_INET6, argv[1], &server_address.sin6_addr);
+    server_address.sin6_port = htons((uint16_t)puerto);
+    inet_pton(AF_INET6, address, &server_address.sin6_addr);
+
 
     connection_status = connect(network_socket, (struct sockaddr*)&server_address, sizeof(server_address));
 
