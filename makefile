@@ -1,5 +1,5 @@
-CC = gcc
-CFLAGS = -Wall -pedantic -Werror -Wextra -std=gnu11 -Wconversion
+CC = gcc 
+CFLAGS = -g -Wall -pedantic -Werror -Wextra -std=gnu11 -Wconversion
 OBJS = obj#nombre de la carpeta donde se guardan los .o
 SRC = src
 BIN = bin

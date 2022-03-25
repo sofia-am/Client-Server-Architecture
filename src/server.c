@@ -53,15 +53,35 @@ int main(int argc, char* argv[]){
     long int ipv4_bw;
     long int ipv6_bw;
     long int unix_bw;
+    char* info = malloc(50);
+    int stat;
+
+    
 
     while(1){
+        FILE *log = fopen("log.txt", "a");
         ipv4_bw = (bytes->ipv4_bytes/8);
         ipv6_bw = (bytes->ipv6_bytes/8);
         unix_bw = (bytes->unix_bytes/8);
         printf(" \n");
 
         sleep(1);
-        printf("IPV4: %ld\nIPV6: %ld\nUNIX: %ld\n", ipv4_bw, ipv6_bw, unix_bw);
+        stat = sprintf(info, "IPV4: %ld\tIPV6: %ld\tUNIX: %ld\t", ipv4_bw, ipv6_bw, unix_bw);
+
+        if(stat < 0){
+            perror("Error al generar string");
+            exit(1);
+        }
+
+        stat = fprintf(log, "IPV4: %ld\tIPV6: %ld\tUNIX: %ld\t\n", ipv4_bw, ipv6_bw, unix_bw);
+        //stat = fprintf(log, info);
+        //fclose(log);
+        if(stat < 0){
+            perror("Error al escribir en el archivo");
+            exit(1);
+        }
+        printf("%s", info);
+        fclose(log);
     }
 /*
     int sec = 0;
