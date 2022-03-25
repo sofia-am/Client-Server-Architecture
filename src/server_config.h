@@ -21,9 +21,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-
-
 #define MAX_SIZE 1024
+#define MBIT 1000000
 
 typedef struct Data
 {

@@ -6,7 +6,7 @@ int main(int argc, char* argv[]){
     data *bytes;
     int shared_mem = shmget(ftok(".", 'S'), sizeof(bytes), (IPC_CREAT | 0660));
     if(shared_mem < 0){
-        perror("Error al crear un segmento de memoria compartida");
+        perror("Shared Memory: Error");
         exit(1);
     }
 
@@ -15,7 +15,7 @@ int main(int argc, char* argv[]){
         perror("Error al asignar memori");
         exit(1);
     }else{
-        printf("Se creó un segmento de memoria compartida \n");
+        printf("Shared Memory: Available \n\n");
     }
 
     signal(SIGCHLD, SIG_IGN);
@@ -48,6 +48,22 @@ int main(int argc, char* argv[]){
         unix_server(argv[3], &(bytes->unix_bytes));
     }
 
+    int aux;
+    int promedio;
+    long int ipv4_bw;
+    long int ipv6_bw;
+    long int unix_bw;
+
+    while(1){
+        ipv4_bw = (bytes->ipv4_bytes/8);
+        ipv6_bw = (bytes->ipv6_bytes/8);
+        unix_bw = (bytes->unix_bytes/8);
+        printf(" \n");
+
+        sleep(1);
+        printf("IPV4: %ld\nIPV6: %ld\nUNIX: %ld\n", ipv4_bw, ipv6_bw, unix_bw);
+    }
+/*
     int sec = 0;
     char log[10000];
     time_t time_;
@@ -70,6 +86,5 @@ int main(int argc, char* argv[]){
 
     }
     return 0;
-
-
+*/
 }
