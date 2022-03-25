@@ -12,10 +12,10 @@ int main(int argc, char* argv[]){
 
     bytes = shmat(shared_mem, 0, 0);
     if(bytes == (void *)-1){
-        perror("Error al asignar memori");
+        perror("Error al asignar memoria");
         exit(1);
     }else{
-        printf("Shared Memory: Available \n\n");
+        printf("Shared Memory: Available \nᴍᴏꜱʜɪ ᴍᴏꜱʜɪ!\n");
     }
 
     signal(SIGCHLD, SIG_IGN);
@@ -56,23 +56,24 @@ int main(int argc, char* argv[]){
     char* info = malloc(100);
     int stat;
 
-    FILE *log = fopen("./log.txt", "a");
+    FILE *log = fopen("log.txt", "a");
+    if(!log){
+        perror("Error al abrir el archivo");
+        exit(1);
+    }
 
     while(1){
 
-        ipv4_bw = (bytes->ipv4_bytes/8);
-        ipv6_bw = (bytes->ipv6_bytes/8);
-        unix_bw = (bytes->unix_bytes/8);
-        printf(" \n");
-
-        sleep(1);
-        stat = sprintf(info, "IPV4: %ld\tIPV6: %ld\tUNIX: %ld\t", ipv4_bw, ipv6_bw, unix_bw);
+        ipv4_bw = (bytes->ipv4_bytes);
+        ipv6_bw = (bytes->ipv6_bytes);
+        unix_bw = (bytes->unix_bytes);
+        //printf(" \n");
+        stat = sprintf(info, "IPV4: %ld \tIPV6: %ld \tUNIX: %ld \t", ipv4_bw, ipv6_bw, unix_bw);
 
         if(stat < 0){
             perror("Error al generar string");
             exit(1);
         }
-
         stat = fprintf(log, "IPV4: %ld\tIPV6: %ld\tUNIX: %ld\t\n", ipv4_bw, ipv6_bw, unix_bw);
         //stat = fprintf(log, info);
         //fclose(log);
@@ -80,8 +81,12 @@ int main(int argc, char* argv[]){
             perror("Error al escribir en el archivo");
             exit(1);
         }
-        printf("%s", info);
-        //free(info);
+        fclose(log);
+
+        sleep(1);
+        fopen("log.txt", "a");
+        
+        //printf("%s", info);
     }
 
 /*

@@ -33,7 +33,7 @@ int ipv4_server(char argv[], long int *bytes){
         exit(1);
     }
 
-    printf("ᴍᴏꜱʜɪ ᴍᴏꜱʜɪ!\n[IPV4] Servidor: PID %d - Socket disponible en puerto %d\n", getpid(), ntohs(server_address.sin_port));
+    printf("[IPV4] Servidor: PID %d - Socket disponible en puerto %d\n", getpid(), ntohs(server_address.sin_port));
     listen(server_socket, 5); //5: cuantas conexiones puede esperar por este socket en un momento determinado
 
     socklen_t cl_addr_length = sizeof(client_address);
@@ -114,7 +114,7 @@ int ipv6_server(char argv[], long int *bytes){
     }
     signal(SIGCHLD, SIG_IGN);
 
-    printf("\n[IPV6] Servidor: PID %d - Socket disponible en puerto %d\n", getpid(), ntohs(server_address.sin6_port));
+    printf("[IPV6] Servidor: PID %d - Socket disponible en puerto %d\n", getpid(), ntohs(server_address.sin6_port));
 
     listen(listen_socket, 5);
 
@@ -193,7 +193,7 @@ int unix_server(char argv[], long int *bytes){
         exit(1);
     }
 
-    printf("\n[UNIX] Servidor: PID %d - Socket disponible en socket %s\n", getpid(), server_address.sun_path);
+    printf("[UNIX] Servidor: PID %d - Socket disponible en socket %s\n", getpid(), server_address.sun_path);
     listen(local_socket, 5);
     client_length = sizeof(client_address);
 
