@@ -53,13 +53,13 @@ int main(int argc, char* argv[]){
     long int ipv4_bw;
     long int ipv6_bw;
     long int unix_bw;
-    char* info = malloc(50);
+    char* info = malloc(100);
     int stat;
 
-    
+    FILE *log = fopen("./log.txt", "a");
 
     while(1){
-        FILE *log = fopen("log.txt", "a");
+
         ipv4_bw = (bytes->ipv4_bytes/8);
         ipv6_bw = (bytes->ipv6_bytes/8);
         unix_bw = (bytes->unix_bytes/8);
@@ -81,8 +81,9 @@ int main(int argc, char* argv[]){
             exit(1);
         }
         printf("%s", info);
-        fclose(log);
+        //free(info);
     }
+
 /*
     int sec = 0;
     char log[10000];
