@@ -32,7 +32,7 @@ server.o: $(SRC)/server.c
 	$(CC) -c $< -o $(OBJS)/$@
 
 clean:
-	rm -rf $(BIN) $(OBJS)
+	rm -rf $(BIN) $(OBJS) $(LIB)
 
 git: 
 	git add $(INC)/ipv4_client.c $(INC)/ipv4_server.c
