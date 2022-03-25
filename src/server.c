@@ -48,5 +48,28 @@ int main(int argc, char* argv[]){
         unix_server(argv[3], &(bytes->unix_bytes));
     }
 
+    int sec = 0;
+    char log[10000];
+    time_t time_;
+    char logtime[80];
+    system("touch log.txt");
+    int logger = open("log.txt", O_WRONLY);
+
+    while(1){
+        struct tm *timestamp;
+        sec++;
+        time(&time_);
+        strftime(logtime, 80, "%x - %X", timestamp);
+        sprintf(log, "%s\nIPV4 bandwidth: %ld Mbits/s\nIPV6 bandwidth %ld Mbit/s\nUnix bandwidth: %ld Mbits/s", timestamp,
+        ((bytes->ipv4_bytes/sec)*8/100000, (bytes->ipv6_bytes/sec)*8/100000), (bytes->unix_bytes/sec)*8/100000);
+        long int total = ((bytes->ipv4_bytes) + (bytes->ipv6_bytes) + (bytes->unix_bytes))/sec;
+
+        write(logger, log, strlen(log));
+        printf("%s ", log);
+        sleep(1);
+
+    }
+    return 0;
+
 
 }

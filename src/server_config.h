@@ -17,6 +17,12 @@
 #include <sys/ipc.h>
 #include <sys/shm.h>
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
+
+
 #define MAX_SIZE 1024
 
 typedef struct Data
