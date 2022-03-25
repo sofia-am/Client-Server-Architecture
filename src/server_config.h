@@ -22,7 +22,7 @@
 #include <fcntl.h>
 
 #define MAX_SIZE 65516
-#define MBIT 1000000
+#define KBIT 1000
 
 typedef struct Data
 {

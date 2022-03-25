@@ -14,7 +14,7 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 
-#define MAX_SIZE 1024
+#define MAX_SIZE 65516
 
 
 

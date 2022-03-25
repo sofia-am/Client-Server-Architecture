@@ -64,17 +64,17 @@ int main(int argc, char* argv[]){
 
     while(1){
 
-        ipv4_bw = (bytes->ipv4_bytes);
-        ipv6_bw = (bytes->ipv6_bytes);
-        unix_bw = (bytes->unix_bytes);
+        ipv4_bw = (bytes->ipv4_bytes)*8/KBIT;
+        ipv6_bw = (bytes->ipv6_bytes)*8/KBIT;
+        unix_bw = (bytes->unix_bytes)*8/KBIT;
         //printf(" \n");
-        stat = sprintf(info, "IPV4: %ld \tIPV6: %ld \tUNIX: %ld \t", ipv4_bw, ipv6_bw, unix_bw);
+        stat = sprintf(info, "IPV4: %ld kb/s\tIPV6: %ld kb/s\tUNIX: %ld kb/s \t", ipv4_bw, ipv6_bw, unix_bw);
 
         if(stat < 0){
             perror("Error al generar string");
             exit(1);
         }
-        stat = fprintf(log, "IPV4: %ld\tIPV6: %ld\tUNIX: %ld\t\n", ipv4_bw, ipv6_bw, unix_bw);
+        stat = fprintf(log, "IPV4: %ld kb/s\tIPV6: %ld kb/s\tUNIX: %ld kb/s \t\n", ipv4_bw, ipv6_bw, unix_bw);
         //stat = fprintf(log, info);
         //fclose(log);
         if(stat < 0){

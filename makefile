@@ -4,7 +4,7 @@ OBJS = obj#nombre de la carpeta donde se guardan los .o
 SRC = src
 BIN = bin
 INC = inc
-LIB = libraries
+LIB = lib
 DEP = inc/dependencies.h
 WHERE = -Wl,-rpath,.
 
