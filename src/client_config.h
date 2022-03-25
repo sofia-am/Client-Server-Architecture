@@ -24,3 +24,9 @@ typedef struct Data
 }data;
 
 data socket_data;
+
+int ipv4_client(char argv[]);
+int ipv6_client(char argv[]);
+int unix_client(char argv[]);
+
+

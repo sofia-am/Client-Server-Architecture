@@ -4,37 +4,36 @@ OBJS = obj#nombre de la carpeta donde se guardan los .o
 SRC = src
 BIN = bin
 INC = inc
-#LIB = libraries
+LIB = libraries
 DEP = inc/dependencies.h
 WHERE = -Wl,-rpath,.
 
-all: mkdir $(BIN)/ipv4_client $(BIN)/unix_client $(BIN)/ipv4_server $(BIN)/unix_server $(BIN)/ipv6_client $(BIN)/ipv6_server
+all: mkdir server
 
 mkdir:
-	mkdir -p $(SRC) $(INC) $(BIN)
+	mkdir -p $(SRC) $(BIN) $(LIB) $(OBJS)
 
-$(BIN)/ipv4_client: $(SRC)/dependencies.h $(SRC)/ipv4_client.c
-	$(CC) $(SRC)/ipv4_client.c $(CFLAGS) -o $@ 
-#$@ es una variable automática que se corresponde con el target que estoy creando
+lib_servers.a: servers.o
+	ar rcs $(LIB)/$@ $(OBJS)/$<
 
-$(BIN)/ipv4_server: $(SRC)/dependencies.h $(SRC)/ipv4_server.c
-	$(CC) $(SRC)/ipv4_server.c $(CFLAGS) -o $@
+servers.o: $(SRC)/server_config.c $(SRC)/server_config.h
+	$(CC) -c $< $(CFLAGS) -o $(OBJS)/$@
 
-$(BIN)/unix_client: $(SRC)/dependencies.h $(SRC)/unix_client.c 
-	$(CC) $(SRC)/unix_client.c $(CFLAGS) -o $@
+lib_clients.a: client_config.o
+	ar rcs $(LIB)/$@ $(OBJS)/$<
 
-$(BIN)/unix_server: $(SRC)/dependencies.h $(SRC)/unix_server.c 
-	$(CC) $(SRC)/unix_server.c $(CFLAGS) -o $@
+client_config.o: $(SRC)/client_config.c $(SRC)/client_config.h
+	$(CC) -c $< $(CFLAGS) -o $(OBJS)/$@
 
-$(BIN)/ipv6_client: $(SRC)/dependencies.h $(SRC)/ipv6_client.c
-	$(CC) $(SRC)/ipv6_client.c $(CFLAGS) -o $@ 
+server: server.o lib_servers.a 
+	$(CC) -o $(BIN)/$@ $(OBJS)/$< $(LIB)/lib_servers.a
 
-$(BIN)/ipv6_server: $(SRC)/dependencies.h $(SRC)/ipv6_server.c
-	$(CC) $(SRC)/ipv6_server.c $(CFLAGS) -o $@ 
+server.o: $(SRC)/server.c
+	$(CC) -c $< -o $(OBJS)/$@
 
 clean:
-	rm -rf $(BIN) 
+	rm -rf $(BIN) $(OBJS)
 
 git: 
-	git add $(SRC)/ipv4_client.c $(SRC)/ipv4_server.c
+	git add $(INC)/ipv4_client.c $(INC)/ipv4_server.c
 	
