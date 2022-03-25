@@ -14,8 +14,18 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 
+#include <sys/ipc.h>
+#include <sys/shm.h>
+
 #define MAX_SIZE 1024
 
-int ipv4_server(char argv[]);
-int ipv6_server(char argv[]);
-int unix_server(char argv[]);
+typedef struct Data
+{
+    long int ipv4_bytes;
+    long int ipv6_bytes;
+    long int unix_bytes;
+}data;
+
+int ipv4_server(char argv[], long int *ipv4_bytes);
+int ipv6_server(char argv[], long int *ipv6_bytes);
+int unix_server(char argv[], long int *unix_bytes);

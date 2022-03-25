@@ -1,6 +1,6 @@
 #include "server_config.h"
 
-int ipv4_server(char argv[]){
+int ipv4_server(char argv[], long int *bytes){
     int pid1, new_server_socket, server_socket;
     ssize_t char_count = 0;
     struct sockaddr_in server_address, client_address;
@@ -58,7 +58,7 @@ int ipv4_server(char argv[]){
                 memset(message, 0, (size_t)MAX_SIZE);
 
                 char_count = read(new_server_socket, message, (size_t)MAX_SIZE-1);
-
+                *bytes = char_count;
                 if(char_count == -1){
                     perror("Error en la lectura del socket");
                     exit(1);
@@ -74,7 +74,7 @@ int ipv4_server(char argv[]){
 }   
 
 
-int ipv6_server(char argv[]){
+int ipv6_server(char argv[], long int *bytes){
     int listen_socket, new_socket;
     struct sockaddr_in6 server_address, client_address;
     socklen_t client_address_length;
@@ -114,7 +114,7 @@ int ipv6_server(char argv[]){
     }
     signal(SIGCHLD, SIG_IGN);
 
-    printf("ᴍᴏꜱʜɪ ᴍᴏꜱʜɪ!\n[IPV6] Servidor: PID %d - Socket disponible en puerto %d\n", getpid(), ntohs(server_address.sin6_port));
+    printf("\n[IPV6] Servidor: PID %d - Socket disponible en puerto %d\n", getpid(), ntohs(server_address.sin6_port));
 
     listen(listen_socket, 5);
 
@@ -143,7 +143,7 @@ int ipv6_server(char argv[]){
                 memset(message, 0, (size_t)MAX_SIZE);
                 
                 char_count = read(new_socket, message, (size_t)MAX_SIZE-1);
-
+                *bytes = char_count;
                 if(char_count == -1){
                     perror("Error en la lectura del socket");
                     exit(1);
@@ -158,7 +158,7 @@ int ipv6_server(char argv[]){
 }
 
 
-int unix_server(char argv[]){
+int unix_server(char argv[], long int *bytes){
     int local_socket, new_local_socket, pid;
     socklen_t server_length, client_length;
     ssize_t char_read, bind_status;
@@ -193,10 +193,10 @@ int unix_server(char argv[]){
         exit(1);
     }
 
-    printf("ᴍᴏꜱʜɪ ᴍᴏꜱʜɪ!\n[UNIX] Servidor: PID %d - Socket disponible en socket %s\n", getpid(), server_address.sun_path);
+    printf("\n[UNIX] Servidor: PID %d - Socket disponible en socket %s\n", getpid(), server_address.sun_path);
     listen(local_socket, 5);
     client_length = sizeof(client_address);
-    signal(SIGCHLD, SIG_IGN);
+
 
     while(1){
         new_local_socket = accept(local_socket, (struct sockaddr*)&client_address, &client_length);
@@ -210,7 +210,7 @@ int unix_server(char argv[]){
                 memset(message, 0, (size_t)MAX_SIZE);
 
                 char_read = read(new_local_socket, message, MAX_SIZE-1);
-
+                *bytes = char_read;
                 if(char_read < 0){
                     perror("Error en la lectura del socket");
                     exit(1);

@@ -16,17 +16,5 @@
 
 #define MAX_SIZE 1024
 
-typedef struct Data
-{
-    int ipv4_size;
-    int ipv6_size;
-    int unix_size;
-}data;
-
-data socket_data;
-
-int ipv4_client(char argv[]);
-int ipv6_client(char argv[]);
-int unix_client(char argv[]);
 
 
